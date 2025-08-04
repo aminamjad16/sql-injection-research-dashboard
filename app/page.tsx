@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MetricsTable } from "@/components/metrics-table"
 import { CompactHeader } from "@/components/compact-header"
 import { BestAccuracyChart } from "@/components/best-accuracy-chart"
+import { ConfusionMatrixGrid } from "@/components/confusion-matrix-grid"
 import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
@@ -182,12 +183,7 @@ export default function ResearchDashboard() {
                   </TabsContent>
 
                   <TabsContent value="confusion" className="mt-3">
-                    <div className="text-center py-12">
-                      <h3 className="text-lg font-semibold mb-2">Confusion Matrix</h3>
-                      <p className="text-gray-600">
-                        Interactive confusion matrices will be displayed here
-                      </p>
-                    </div>
+                    <ConfusionMatrixGrid dataset={selectedDataset} />
                   </TabsContent>
 
                   <TabsContent value="roc" className="mt-3">
