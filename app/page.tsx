@@ -9,6 +9,7 @@ import { CompactHeader } from "@/components/compact-header"
 import { BestAccuracyChart } from "@/components/best-accuracy-chart"
 import { ConfusionMatrixGrid } from "@/components/confusion-matrix-grid"
 import { ROCCurveAnalysis } from "@/components/roc-curve-analysis"
+import { AlgorithmPage } from "@/components/algorithm-page"
 import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
@@ -28,28 +29,12 @@ export default function ResearchDashboard() {
 
   if (selectedAlgorithm) {
     return (
-      <div className="min-h-screen bg-slate-50 p-4">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center gap-4 mb-6">
-            <Button onClick={() => setSelectedAlgorithm(null)} variant="outline">
-              ← Back to Overview
-            </Button>
-            <h1 className="text-2xl font-bold">
-              {algorithms.find(a => a.id === selectedAlgorithm)?.name} Analysis
-            </h1>
-          </div>
-          <Card>
-            <CardContent className="p-6">
-              <div className="text-center py-12">
-                <h2 className="text-xl font-semibold mb-4">Detailed Analysis Coming Soon</h2>
-                <p className="text-gray-600">
-                  This section will include confusion matrices, ROC curves, feature importance, and detailed metrics.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <AlgorithmPage
+        algorithm={selectedAlgorithm}
+        onBack={() => setSelectedAlgorithm(null)}
+        selectedDataset={selectedDataset}
+        onDatasetChange={setSelectedDataset}
+      />
     )
   }
 
