@@ -8,6 +8,7 @@ import { MetricsTable } from "@/components/metrics-table"
 import { CompactHeader } from "@/components/compact-header"
 import { BestAccuracyChart } from "@/components/best-accuracy-chart"
 import { ConfusionMatrixGrid } from "@/components/confusion-matrix-grid"
+import { ROCCurveAnalysis } from "@/components/roc-curve-analysis"
 import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
@@ -187,12 +188,7 @@ export default function ResearchDashboard() {
                   </TabsContent>
 
                   <TabsContent value="roc" className="mt-3">
-                    <div className="text-center py-12">
-                      <h3 className="text-lg font-semibold mb-2">ROC Curve Analysis</h3>
-                      <p className="text-gray-600">
-                        ROC curves and AUC analysis will be displayed here
-                      </p>
-                    </div>
+                    <ROCCurveAnalysis dataset={selectedDataset} />
                   </TabsContent>
                 </Tabs>
               </CardContent>
