@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MetricsTable } from "@/components/metrics-table"
+import { CompactHeader } from "@/components/compact-header"
 import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
@@ -15,13 +17,6 @@ const algorithms = [
   { id: "rf", name: "Random Forest", short: "RF", icon: Brain, color: "bg-green-500", accuracy: "99.78%" },
   { id: "svm", name: "Support Vector Machine", short: "SVM", icon: Target, color: "bg-blue-500", accuracy: "99.78%" },
   { id: "knn", name: "K-Nearest Neighbors", short: "KNN", icon: Zap, color: "bg-purple-500", accuracy: "98.61%" },
-]
-
-// Mock data for demonstration
-const mockMetrics = [
-  { algorithm: "Random Forest", accuracy: "99.78%", precision: "99.80%", recall: "99.76%", f1: "99.78%" },
-  { algorithm: "SVM", accuracy: "99.78%", precision: "99.79%", recall: "99.77%", f1: "99.78%" },
-  { algorithm: "KNN", accuracy: "98.61%", precision: "98.65%", recall: "98.57%", f1: "98.61%" },
 ]
 
 export default function ResearchDashboard() {
@@ -59,14 +54,7 @@ export default function ResearchDashboard() {
     <div className="min-h-screen bg-slate-50 p-4">
       <div className="max-w-7xl mx-auto space-y-4">
         {/* Compact Header */}
-        <div className="text-center py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 font-lato">
-            SQL Injection Research Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Machine Learning Algorithm Comparison for SQL Injection Detection
-          </p>
-        </div>
+        <CompactHeader />
 
         {/* Main Layout - Side by Side */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -206,30 +194,7 @@ export default function ResearchDashboard() {
                   </TabsList>
 
                   <TabsContent value="metrics" className="mt-3">
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse border border-gray-200">
-                        <thead>
-                          <tr className="bg-gray-50">
-                            <th className="border border-gray-200 p-2 text-left">Algorithm</th>
-                            <th className="border border-gray-200 p-2 text-left">Accuracy</th>
-                            <th className="border border-gray-200 p-2 text-left">Precision</th>
-                            <th className="border border-gray-200 p-2 text-left">Recall</th>
-                            <th className="border border-gray-200 p-2 text-left">F1-Score</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {mockMetrics.map((metric, index) => (
-                            <tr key={index} className="hover:bg-gray-50">
-                              <td className="border border-gray-200 p-2 font-medium">{metric.algorithm}</td>
-                              <td className="border border-gray-200 p-2">{metric.accuracy}</td>
-                              <td className="border border-gray-200 p-2">{metric.precision}</td>
-                              <td className="border border-gray-200 p-2">{metric.recall}</td>
-                              <td className="border border-gray-200 p-2">{metric.f1}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                    <MetricsTable dataset={selectedDataset} />
                   </TabsContent>
 
                   <TabsContent value="confusion" className="mt-3">
