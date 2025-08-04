@@ -2,165 +2,185 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MetricsTable } from "@/components/metrics-table"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { BarChart3, Grid3X3, TrendingUp, Database, Settings, Activity } from "lucide-react"
+
+// Import components
 import { CompactHeader } from "@/components/compact-header"
+import { MetricsTable } from "@/components/metrics-table"
 import { BestAccuracyChart } from "@/components/best-accuracy-chart"
 import { ConfusionMatrixGrid } from "@/components/confusion-matrix-grid"
 import { ROCCurveAnalysis } from "@/components/roc-curve-analysis"
-import { AlgorithmPage } from "@/components/algorithm-page"
-import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
+import { RFFeatureImportance } from "@/components/rf-feature-importance"
+import { AlgorithmComparison } from "@/components/algorithm-comparison"
 
-const datasets = [
-  { id: "dataset1", name: "Dataset 1", samples: "30.6K" },
-  { id: "dataset2", name: "Dataset 2", samples: "14K" },
-]
-
-const algorithms = [
-  { id: "rf", name: "Random Forest", short: "RF", icon: Brain, color: "bg-green-500", accuracy: "99.78%" },
-  { id: "svm", name: "Support Vector Machine", short: "SVM", icon: Target, color: "bg-blue-500", accuracy: "99.78%" },
-  { id: "knn", name: "K-Nearest Neighbors", short: "KNN", icon: Zap, color: "bg-purple-500", accuracy: "98.61%" },
-]
-
-export default function ResearchDashboard() {
+export default function Home() {
   const [selectedDataset, setSelectedDataset] = useState("dataset1")
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string | null>(null)
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("all")
 
-  if (selectedAlgorithm) {
-    return (
-      <AlgorithmPage
-        algorithm={selectedAlgorithm}
-        onBack={() => setSelectedAlgorithm(null)}
-        selectedDataset={selectedDataset}
-        onDatasetChange={setSelectedDataset}
-      />
-    )
+  const datasets = [
+    { value: "dataset1", label: "Dataset 1 (6,128 samples)" },
+    { value: "dataset2", label: "Dataset 2 (38,517 samples)" },
+  ]
+
+  const algorithms = [
+    { value: "all", label: "All Algorithms" },
+    { value: "rf", label: "Random Forest" },
+    { value: "svm", label: "Support Vector Machine" },
+    { value: "knn", label: "K-Nearest Neighbors" },
+  ]
+
+  const getAlgorithmColor = (algorithm: string) => {
+    switch (algorithm) {
+      case "RF":
+        return "bg-green-100 text-green-800"
+      case "SVM":
+        return "bg-blue-100 text-blue-800"
+      case "KNN":
+        return "bg-purple-100 text-purple-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4">
-      <div className="max-w-7xl mx-auto space-y-4">
+    <div className="min-h-screen bg-slate-50 p-2 sm:p-4">
+      <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4">
         {/* Compact Header */}
         <CompactHeader />
 
-        {/* Main Layout - Side by Side */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        {/* Main Layout - Mobile First Responsive */}
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-3 sm:gap-4">
           {/* Left Sidebar - Controls */}
-          <div className="lg:col-span-1 space-y-3">
+          <div className="xl:col-span-1 space-y-3">
             {/* Dataset Selection */}
-            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
-              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
-                <Database className="h-4 w-4 text-green-600" />
-                Dataset
-              </div>
-              <div className="space-y-2">
-                {datasets.map((dataset) => (
-                  <Button
-                    key={dataset.id}
-                    variant={selectedDataset === dataset.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedDataset(dataset.id)}
-                    className={`w-full justify-between h-10 border-2 transition-all duration-200 ${
-                      selectedDataset === dataset.id
-                        ? "bg-green-600 hover:bg-green-700 border-green-600 text-white shadow-lg"
-                        : "hover:border-green-300 hover:bg-green-50"
-                    }`}
-                  >
-                    <span className="font-medium">{dataset.name}</span>
-                    <span className={`text-xs ${selectedDataset === dataset.id ? "text-green-100" : "text-gray-500"}`}>
-                      {dataset.samples}
-                    </span>
-                  </Button>
-                ))}
-              </div>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Database className="h-4 w-4" />
+                  Dataset
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Select value={selectedDataset} onValueChange={setSelectedDataset}>
+                  <SelectTrigger className="h-8">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {datasets.map((dataset) => (
+                      <SelectItem key={dataset.value} value={dataset.value}>
+                        {dataset.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </CardContent>
             </Card>
 
-            {/* Algorithm Selection */}
-            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
-              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
-                <Brain className="h-4 w-4 text-blue-600" />
-                Algorithms
-              </div>
-              <div className="space-y-3">
-                {algorithms.map((algo) => {
-                  const IconComponent = algo.icon
-                  return (
-                    <Button
-                      key={algo.id}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedAlgorithm(algo.id)}
-                      className="w-full justify-start h-auto p-3 border-2 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
-                    >
-                      <div className={`p-2 rounded-lg ${algo.color} mr-3 group-hover:scale-110 transition-transform duration-200`}>
-                        <IconComponent className="h-4 w-4 text-white" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <div className="text-sm font-semibold text-gray-800 group-hover:text-blue-700 transition-colors font-lato">
-                          {algo.name}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          Best: {algo.accuracy}
-                        </div>
-                      </div>
-                    </Button>
-                  )
-                })}
-              </div>
+            {/* Algorithm Filter */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
+                  Algorithm
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Select value={selectedAlgorithm} onValueChange={setSelectedAlgorithm}>
+                  <SelectTrigger className="h-8">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {algorithms.map((algorithm) => (
+                      <SelectItem key={algorithm.value} value={algorithm.value}>
+                        {algorithm.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </CardContent>
             </Card>
 
             {/* Quick Stats */}
-            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
-              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
-                <TrendingUp className="h-4 w-4 text-purple-600" />
-                Quick Stats
-              </div>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg border border-green-200">
-                  <span className="text-gray-700">Best Accuracy:</span>
-                  <span className="font-bold text-green-700 text-lg">99.78%</span>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Activity className="h-4 w-4" />
+                  Quick Stats
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0 space-y-2">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Best Accuracy:</span>
+                  <span className="font-semibold text-green-600">
+                    {selectedDataset === "dataset1" ? "99.48%" : "99.78%"}
+                  </span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg border border-blue-200">
-                  <span className="text-gray-700">Total Models:</span>
-                  <span className="font-bold text-blue-700">12</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Best Algorithm:</span>
+                  <Badge className={getAlgorithmColor(selectedDataset === "dataset1" ? "RF" : "SVM")} size="sm">
+                    {selectedDataset === "dataset1" ? "RF" : "SVM"}
+                  </Badge>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg border border-purple-200">
-                  <span className="text-gray-700">Datasets:</span>
-                  <span className="font-bold text-purple-700">2</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Total Samples:</span>
+                  <span className="font-semibold">
+                    {selectedDataset === "dataset1" ? "6,128" : "38,517"}
+                  </span>
                 </div>
-              </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Models Tested:</span>
+                  <span className="font-semibold">12</span>
+                </div>
+              </CardContent>
             </Card>
+
+            {/* Feature Importance - Only for RF */}
+            {selectedAlgorithm === "rf" || selectedAlgorithm === "all" ? (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">RF Feature Importance</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <RFFeatureImportance dataset={selectedDataset} />
+                </CardContent>
+              </Card>
+            ) : null}
           </div>
 
           {/* Main Content Area */}
-          <div className="lg:col-span-4">
+          <div className="xl:col-span-4">
             {/* Best Performance - Compact */}
-            <Card className="mb-4">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-lato">Performance Overview</CardTitle>
+            <Card className="mb-3 sm:mb-4">
+              <CardHeader className="pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+                <CardTitle className="text-base sm:text-lg font-lato">Performance Overview</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 px-3 sm:px-6 pb-3 sm:pb-6">
                 <BestAccuracyChart />
               </CardContent>
             </Card>
 
             {/* Results Tabs - Compact */}
             <Card>
-              <CardContent className="p-4">
+              <CardContent className="p-3 sm:p-4">
                 <Tabs defaultValue="metrics" className="space-y-3">
-                  <TabsList className="grid w-full grid-cols-3 h-9">
-                    <TabsTrigger value="metrics" className="text-xs">
-                      <BarChart3 className="h-3 w-3 mr-1" />
-                      Metrics
+                  <TabsList className="grid w-full grid-cols-3 h-auto">
+                    <TabsTrigger value="metrics" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                      <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">Metrics</span>
+                      <span className="sm:hidden">Met</span>
                     </TabsTrigger>
-                    <TabsTrigger value="confusion" className="text-xs">
-                      <Grid3X3 className="h-3 w-3 mr-1" />
-                      Matrix
+                    <TabsTrigger value="confusion" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                      <Grid3X3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">Matrix</span>
+                      <span className="sm:hidden">Mat</span>
                     </TabsTrigger>
-                    <TabsTrigger value="roc" className="text-xs">
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                      ROC Analysis
+                    <TabsTrigger value="roc" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+                      <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                      <span className="hidden sm:inline">ROC Analysis</span>
+                      <span className="sm:hidden">ROC</span>
                     </TabsTrigger>
                   </TabsList>
 

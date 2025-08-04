@@ -52,73 +52,79 @@ const aucData = {
     { algorithm: "Random Forest", parameter: "n=100", auc: 0.9994, prediction: "Excellent Prediction" },
     { algorithm: "Random Forest", parameter: "n=300", auc: 0.9994, prediction: "Excellent Prediction" },
     { algorithm: "Random Forest", parameter: "n=500", auc: 0.9994, prediction: "Excellent Prediction" },
-    { algorithm: "Random Forest", parameter: "n=700", auc: 0.9995, prediction: "Excellent Prediction" },
-    { algorithm: "SVM", parameter: "Linear", auc: 0.9995, prediction: "Excellent Prediction" },
-    { algorithm: "SVM", parameter: "RBF", auc: 0.6933, prediction: "Fair Prediction" },
-    { algorithm: "SVM", parameter: "Polynomial", auc: 0.0014, prediction: "Very Poor Prediction" },
-    { algorithm: "SVM", parameter: "Sigmoid", auc: -0.0024, prediction: "Very Poor Prediction" },
-    { algorithm: "KNN", parameter: "k=3", auc: 0.6825, prediction: "Fair Prediction" },
-    { algorithm: "KNN", parameter: "k=5", auc: 0.7047, prediction: "Fair Prediction" },
-    { algorithm: "KNN", parameter: "k=7", auc: 0.7454, prediction: "Fair Prediction" },
-    { algorithm: "KNN", parameter: "k=9", auc: 0.7647, prediction: "Good Prediction" },
+    { algorithm: "Random Forest", parameter: "n=700", auc: 0.9994, prediction: "Excellent Prediction" },
+    { algorithm: "SVM", parameter: "Linear", auc: 0.9994, prediction: "Excellent Prediction" },
+    { algorithm: "SVM", parameter: "RBF", auc: 0.5000, prediction: "Poor Prediction" },
+    { algorithm: "SVM", parameter: "Polynomial", auc: 0.9995, prediction: "Excellent Prediction" },
+    { algorithm: "SVM", parameter: "Sigmoid", auc: 0.5000, prediction: "Poor Prediction" },
+    { algorithm: "KNN", parameter: "k=3", auc: 0.6790, prediction: "Fair Prediction" },
+    { algorithm: "KNN", parameter: "k=5", auc: 0.6790, prediction: "Fair Prediction" },
+    { algorithm: "KNN", parameter: "k=7", auc: 0.6790, prediction: "Fair Prediction" },
+    { algorithm: "KNN", parameter: "k=9", auc: 0.6790, prediction: "Fair Prediction" },
   ]
 }
 
-// Algorithm configurations with their AUC scores and colors for the ROC curves
+// Algorithm configurations for the legend
 const algorithmConfigs = {
   dataset1: [
-    { key: "rf_100", name: "RF (n=100)", auc: 0.9994, color: "#3b82f6" },
-    { key: "rf_300", name: "RF (n=300)", auc: 0.9994, color: "#f97316" },
-    { key: "rf_500", name: "RF (n=500)", auc: 0.9994, color: "#06b6d4" },
-    { key: "rf_700", name: "RF (n=700)", auc: 0.9995, color: "#eab308" },
-    { key: "svm_linear", name: "SVM (Linear)", auc: 0.9995, color: "#8b5cf6" },
-    { key: "svm_rbf", name: "SVM (RBF)", auc: 0.6933, color: "#ec4899" },
-    { key: "svm_poly", name: "SVM (Poly)", auc: 0.0014, color: "#84cc16" },
-    { key: "svm_sigmoid", name: "SVM (Sigmoid)", auc: 0.0024, color: "#f59e0b" },
-    { key: "knn_3", name: "KNN (k=3)", auc: 0.8825, color: "#10b981" },
-    { key: "knn_5", name: "KNN (k=5)", auc: 0.7047, color: "#6366f1" },
-    { key: "knn_7", name: "KNN (k=7)", auc: 0.7464, color: "#ef4444" },
-    { key: "knn_9", name: "KNN (k=9)", auc: 0.7647, color: "#14b8a6" },
+    { key: "rf_300", name: "RF (n=300)", color: "#10b981", strokeWidth: 3 },
+    { key: "svm_linear", name: "SVM Linear", color: "#3b82f6", strokeWidth: 2 },
+    { key: "knn_3", name: "KNN (k=3)", color: "#8b5cf6", strokeWidth: 2 },
+    { key: "diagonal", name: "Random Classifier", color: "#ef4444", strokeWidth: 1, strokeDasharray: "5 5" },
   ],
   dataset2: [
-    { key: "rf_100", name: "RF (n=100)", auc: 0.9994, color: "#3b82f6" },
-    { key: "rf_300", name: "RF (n=300)", auc: 0.9994, color: "#f97316" },
-    { key: "rf_500", name: "RF (n=500)", auc: 0.9994, color: "#06b6d4" },
-    { key: "rf_700", name: "RF (n=700)", auc: 0.9995, color: "#eab308" },
-    { key: "svm_linear", name: "SVM (Linear)", auc: 0.9995, color: "#8b5cf6" },
-    { key: "svm_rbf", name: "SVM (RBF)", auc: 0.6933, color: "#ec4899" },
-    { key: "svm_poly", name: "SVM (Poly)", auc: 0.0014, color: "#84cc16" },
-    { key: "svm_sigmoid", name: "SVM (Sigmoid)", auc: 0.0024, color: "#f59e0b" },
-    { key: "knn_3", name: "KNN (k=3)", auc: 0.8825, color: "#10b981" },
-    { key: "knn_5", name: "KNN (k=5)", auc: 0.7047, color: "#6366f1" },
-    { key: "knn_7", name: "KNN (k=7)", auc: 0.7464, color: "#ef4444" },
-    { key: "knn_9", name: "KNN (k=9)", auc: 0.7647, color: "#14b8a6" },
+    { key: "rf_700", name: "RF (n=700)", color: "#10b981", strokeWidth: 3 },
+    { key: "svm_poly", name: "SVM Polynomial", color: "#3b82f6", strokeWidth: 3 },
+    { key: "svm_linear", name: "SVM Linear", color: "#06b6d4", strokeWidth: 2 },
+    { key: "knn_9", name: "KNN (k=9)", color: "#8b5cf6", strokeWidth: 2 },
+    { key: "diagonal", name: "Random Classifier", color: "#ef4444", strokeWidth: 1, strokeDasharray: "5 5" },
   ]
-}
-
-const getAlgorithmColor = (algorithm: string) => {
-  switch (algorithm) {
-    case "Random Forest":
-      return "bg-green-100 text-green-800"
-    case "SVM":
-      return "bg-blue-100 text-blue-800"
-    case "KNN":
-      return "bg-purple-100 text-purple-800"
-    default:
-      return "bg-gray-100 text-gray-800"
-  }
-}
-
-const getPredictionColor = (prediction: string) => {
-  if (prediction.includes("Excellent")) return "text-green-600"
-  if (prediction.includes("Very Good") || prediction.includes("Good")) return "text-blue-600"
-  if (prediction.includes("Fair")) return "text-yellow-600"
-  return "text-red-600"
 }
 
 const chartConfig = {
-  roc: { label: "ROC Curve", color: "#10b981" },
-  diagonal: { label: "Random Classifier", color: "#94a3b8" },
+  rf_100: { label: "RF (n=100)", color: "#059669" },
+  rf_300: { label: "RF (n=300)", color: "#10b981" },
+  rf_500: { label: "RF (n=500)", color: "#34d399" },
+  rf_700: { label: "RF (n=700)", color: "#6ee7b7" },
+  svm_linear: { label: "SVM Linear", color: "#3b82f6" },
+  svm_rbf: { label: "SVM RBF", color: "#1d4ed8" },
+  svm_poly: { label: "SVM Polynomial", color: "#2563eb" },
+  svm_sigmoid: { label: "SVM Sigmoid", color: "#1e40af" },
+  knn_3: { label: "KNN (k=3)", color: "#8b5cf6" },
+  knn_5: { label: "KNN (k=5)", color: "#7c3aed" },
+  knn_7: { label: "KNN (k=7)", color: "#6d28d9" },
+  knn_9: { label: "KNN (k=9)", color: "#5b21b6" },
+  diagonal: { label: "Random Classifier", color: "#ef4444" },
+}
+
+function getAlgorithmColor(algorithm: string) {
+  switch (algorithm) {
+    case "Random Forest":
+      return "bg-green-100 text-green-800 border-green-300"
+    case "SVM":
+      return "bg-blue-100 text-blue-800 border-blue-300"
+    case "KNN":
+      return "bg-purple-100 text-purple-800 border-purple-300"
+    default:
+      return "bg-gray-100 text-gray-800 border-gray-300"
+  }
+}
+
+function getPredictionColor(prediction: string) {
+  switch (prediction) {
+    case "Excellent Prediction":
+      return "text-green-600 bg-green-50"
+    case "Very Good Prediction":
+      return "text-blue-600 bg-blue-50"
+    case "Good Prediction":
+      return "text-yellow-600 bg-yellow-50"
+    case "Fair Prediction":
+      return "text-orange-600 bg-orange-50"
+    case "Poor Prediction":
+      return "text-red-600 bg-red-50"
+    default:
+      return "text-gray-600 bg-gray-50"
+  }
 }
 
 interface ROCCurveAnalysisProps {
@@ -131,35 +137,37 @@ export function ROCCurveAnalysis({ dataset }: ROCCurveAnalysisProps) {
   const algorithms = algorithmConfigs[dataset as keyof typeof algorithmConfigs] || []
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"></div>
-            ROC Curve for All Models
+        <CardHeader className="pb-2 sm:pb-6">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"></div>
+            <span className="hidden sm:inline">ROC Curve for All Models</span>
+            <span className="sm:hidden">ROC Curves</span>
           </CardTitle>
-          <CardDescription>
-            Receiver Operating Characteristic curve showing model performance across all algorithms
+          <CardDescription className="text-xs sm:text-sm">
+            <span className="hidden sm:inline">Receiver Operating Characteristic curve showing model performance across all algorithms</span>
+            <span className="sm:hidden">Model performance curves</span>
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-[600px]">
+        <CardContent className="pt-2 sm:pt-6">
+          <ChartContainer config={chartConfig} className="h-[400px] sm:h-[500px] lg:h-[600px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={rocData} margin={{ top: 20, right: 200, left: 20, bottom: 60 }}>
+              <LineChart data={rocData} margin={{ top: 10, right: 10, left: 10, bottom: 30 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis
                   dataKey="fpr"
                   type="number"
                   domain={[0, 1]}
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 10 }}
                   tickFormatter={(value) => value.toFixed(1)}
-                  label={{ value: 'False Positive Rate', position: 'insideBottom', offset: -10 }}
+                  label={{ value: 'FPR', position: 'insideBottom', offset: -5, style: { fontSize: '12px' } }}
                 />
                 <YAxis
                   domain={[0, 1]}
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 10 }}
                   tickFormatter={(value) => value.toFixed(1)}
-                  label={{ value: 'True Positive Rate (Recall)', angle: -90, position: 'insideLeft' }}
+                  label={{ value: 'TPR', angle: -90, position: 'insideLeft', style: { fontSize: '12px' } }}
                 />
                 <ChartTooltip
                   content={({ active, payload, label }) => {
@@ -180,37 +188,22 @@ export function ROCCurveAnalysis({ dataset }: ROCCurveAnalysisProps) {
                     return null;
                   }}
                 />
-                <Legend
-                  verticalAlign="middle"
-                  align="right"
-                  layout="vertical"
-                  wrapperStyle={{ paddingLeft: '20px', fontSize: '12px' }}
-                />
-
-                {/* Diagonal line for random classifier */}
-                <Line
-                  type="linear"
-                  dataKey="diagonal"
-                  stroke="#000000"
-                  strokeWidth={2}
-                  strokeDasharray="5 5"
-                  name="Random Guess"
-                  dot={false}
-                />
-
-                {/* Individual algorithm lines */}
                 {algorithms.map((algo) => (
                   <Line
                     key={algo.key}
                     type="monotone"
                     dataKey={algo.key}
                     stroke={algo.color}
-                    strokeWidth={2}
-                    name={`${algo.name} (AUC = ${algo.auc.toFixed(4)})`}
+                    strokeWidth={algo.strokeWidth}
+                    strokeDasharray={algo.strokeDasharray}
                     dot={false}
-                    connectNulls={false}
+                    name={algo.name}
                   />
                 ))}
+                <Legend 
+                  wrapperStyle={{ fontSize: '12px' }}
+                  iconType="line"
+                />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -219,89 +212,101 @@ export function ROCCurveAnalysis({ dataset }: ROCCurveAnalysisProps) {
 
       {/* AUC Scores Table */}
       <Card>
-        <CardHeader>
-          <CardTitle>AUC Scores and Model Predictions</CardTitle>
-          <CardDescription>
+        <CardHeader className="pb-2 sm:pb-6">
+          <CardTitle className="text-base sm:text-lg">AUC Scores and Performance Predictions</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Area Under the Curve scores for all algorithm configurations
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Algorithm</TableHead>
-                  <TableHead>Parameters</TableHead>
-                  <TableHead>AUC Score</TableHead>
-                  <TableHead>Prediction Quality</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {auc.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Badge className={`${getAlgorithmColor(item.algorithm)} text-xs`}>
-                        {item.algorithm}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="font-mono text-sm">{item.parameter}</TableCell>
-                    <TableCell className="font-semibold">
-                      {item.auc.toFixed(4)}
-                    </TableCell>
-                    <TableCell>
-                      <span className={`font-medium ${getPredictionColor(item.prediction)}`}>
-                        {item.prediction}
-                      </span>
-                    </TableCell>
+        <CardContent className="pt-2 sm:pt-6">
+          <div className="overflow-x-auto -mx-3 sm:mx-0">
+            <div className="min-w-full inline-block align-middle">
+              <Table className="min-w-[600px] sm:min-w-full">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs px-2 sm:px-4">Algorithm</TableHead>
+                    <TableHead className="text-xs px-2 sm:px-4">Parameter</TableHead>
+                    <TableHead className="text-xs px-2 sm:px-4">AUC Score</TableHead>
+                    <TableHead className="text-xs px-2 sm:px-4">Prediction Quality</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {auc.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="px-2 sm:px-4">
+                        <Badge className={`${getAlgorithmColor(item.algorithm)} text-xs px-1.5 py-0.5`}>
+                          {item.algorithm}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-xs font-mono px-2 sm:px-4">{item.parameter}</TableCell>
+                      <TableCell className="text-xs font-semibold px-2 sm:px-4">{item.auc.toFixed(4)}</TableCell>
+                      <TableCell className="px-2 sm:px-4">
+                        <Badge className={`${getPredictionColor(item.prediction)} text-xs px-1.5 py-0.5`}>
+                          {item.prediction}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Summary Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <Card className="bg-green-50 border-green-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-green-800 text-sm">Best AUC Score</CardTitle>
+          <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+            <CardTitle className="text-green-800 text-xs sm:text-sm">
+              <span className="hidden sm:inline">Best AUC Score</span>
+              <span className="sm:hidden">Best AUC</span>
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">
               {Math.max(...auc.map(a => a.auc)).toFixed(4)}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-blue-50 border-blue-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-blue-800 text-sm">Excellent Models</CardTitle>
+          <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+            <CardTitle className="text-blue-800 text-xs sm:text-sm">
+              <span className="hidden sm:inline">Excellent Models</span>
+              <span className="sm:hidden">Excellent</span>
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="text-lg sm:text-2xl font-bold text-blue-600">
               {auc.filter(a => a.prediction === "Excellent Prediction").length}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-purple-50 border-purple-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-purple-800 text-sm">Average AUC</CardTitle>
+          <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+            <CardTitle className="text-purple-800 text-xs sm:text-sm">
+              <span className="hidden sm:inline">Average AUC</span>
+              <span className="sm:hidden">Avg AUC</span>
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="text-lg sm:text-2xl font-bold text-purple-600">
               {(auc.reduce((sum, a) => sum + a.auc, 0) / auc.length).toFixed(4)}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-orange-50 border-orange-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-orange-800 text-sm">Total Models</CardTitle>
+          <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+            <CardTitle className="text-orange-800 text-xs sm:text-sm">
+              <span className="hidden sm:inline">Total Models</span>
+              <span className="sm:hidden">Total</span>
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="text-lg sm:text-2xl font-bold text-orange-600">
               {auc.length}
             </div>
           </CardContent>
