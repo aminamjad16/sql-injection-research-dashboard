@@ -1,6 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
   { id: "dataset1", name: "Dataset 1", samples: "30.6K" },
@@ -8,77 +12,247 @@ const datasets = [
 ]
 
 const algorithms = [
-  { id: "rf", name: "Random Forest", short: "RF", accuracy: "99.78%" },
-  { id: "svm", name: "Support Vector Machine", short: "SVM", accuracy: "99.78%" },
-  { id: "knn", name: "K-Nearest Neighbors", short: "KNN", accuracy: "98.61%" },
+  { id: "rf", name: "Random Forest", short: "RF", icon: Brain, color: "bg-green-500", accuracy: "99.78%" },
+  { id: "svm", name: "Support Vector Machine", short: "SVM", icon: Target, color: "bg-blue-500", accuracy: "99.78%" },
+  { id: "knn", name: "K-Nearest Neighbors", short: "KNN", icon: Zap, color: "bg-purple-500", accuracy: "98.61%" },
+]
+
+// Mock data for demonstration
+const mockMetrics = [
+  { algorithm: "Random Forest", accuracy: "99.78%", precision: "99.80%", recall: "99.76%", f1: "99.78%" },
+  { algorithm: "SVM", accuracy: "99.78%", precision: "99.79%", recall: "99.77%", f1: "99.78%" },
+  { algorithm: "KNN", accuracy: "98.61%", precision: "98.65%", recall: "98.57%", f1: "98.61%" },
 ]
 
 export default function ResearchDashboard() {
   const [selectedDataset, setSelectedDataset] = useState("dataset1")
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string | null>(null)
+
+  if (selectedAlgorithm) {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4">
+        <div className="max-w-7xl mx-auto space-y-4">
+          <div className="flex items-center gap-4 mb-6">
+            <Button onClick={() => setSelectedAlgorithm(null)} variant="outline">
+              ← Back to Overview
+            </Button>
+            <h1 className="text-2xl font-bold">
+              {algorithms.find(a => a.id === selectedAlgorithm)?.name} Analysis
+            </h1>
+          </div>
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center py-12">
+                <h2 className="text-xl font-semibold mb-4">Detailed Analysis Coming Soon</h2>
+                <p className="text-gray-600">
+                  This section will include confusion matrices, ROC curves, feature importance, and detailed metrics.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 p-4">
       <div className="max-w-7xl mx-auto space-y-4">
-        {/* Header */}
-        <div className="text-center py-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        {/* Compact Header */}
+        <div className="text-center py-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 font-lato">
             SQL Injection Research Dashboard
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-gray-600">
             Machine Learning Algorithm Comparison for SQL Injection Detection
           </p>
         </div>
 
-        {/* Dataset Selection */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Select Dataset</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {datasets.map((dataset) => (
-              <button
-                key={dataset.id}
-                onClick={() => setSelectedDataset(dataset.id)}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                  selectedDataset === dataset.id
-                    ? "bg-green-600 text-white border-green-600"
-                    : "bg-white text-gray-700 border-gray-200 hover:border-green-300"
-                }`}
-              >
-                <div className="text-lg font-semibold">{dataset.name}</div>
-                <div className="text-sm opacity-75">{dataset.samples} samples</div>
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Main Layout - Side by Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Left Sidebar - Controls */}
+          <div className="lg:col-span-1 space-y-3">
+            {/* Dataset Selection */}
+            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
+              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
+                <Database className="h-4 w-4 text-green-600" />
+                Dataset
+              </div>
+              <div className="space-y-2">
+                {datasets.map((dataset) => (
+                  <Button
+                    key={dataset.id}
+                    variant={selectedDataset === dataset.id ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedDataset(dataset.id)}
+                    className={`w-full justify-between h-10 border-2 transition-all duration-200 ${
+                      selectedDataset === dataset.id
+                        ? "bg-green-600 hover:bg-green-700 border-green-600 text-white shadow-lg"
+                        : "hover:border-green-300 hover:bg-green-50"
+                    }`}
+                  >
+                    <span className="font-medium">{dataset.name}</span>
+                    <span className={`text-xs ${selectedDataset === dataset.id ? "text-green-100" : "text-gray-500"}`}>
+                      {dataset.samples}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+            </Card>
 
-        {/* Algorithm Results */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Algorithm Performance</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {algorithms.map((algo) => (
-              <div
-                key={algo.id}
-                className="p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
-              >
-                <div className="text-lg font-semibold text-gray-800">
-                  {algo.name}
+            {/* Algorithm Selection */}
+            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
+              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
+                <Brain className="h-4 w-4 text-blue-600" />
+                Algorithms
+              </div>
+              <div className="space-y-3">
+                {algorithms.map((algo) => {
+                  const IconComponent = algo.icon
+                  return (
+                    <Button
+                      key={algo.id}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedAlgorithm(algo.id)}
+                      className="w-full justify-start h-auto p-3 border-2 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
+                    >
+                      <div className={`p-2 rounded-lg ${algo.color} mr-3 group-hover:scale-110 transition-transform duration-200`}>
+                        <IconComponent className="h-4 w-4 text-white" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <div className="text-sm font-semibold text-gray-800 group-hover:text-blue-700 transition-colors font-lato">
+                          {algo.name}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          Best: {algo.accuracy}
+                        </div>
+                      </div>
+                    </Button>
+                  )
+                })}
+              </div>
+            </Card>
+
+            {/* Quick Stats */}
+            <Card className="p-4 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 shadow-lg">
+              <div className="text-sm font-bold mb-3 text-gray-800 flex items-center gap-2 font-lato">
+                <TrendingUp className="h-4 w-4 text-purple-600" />
+                Quick Stats
+              </div>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg border border-green-200">
+                  <span className="text-gray-700">Best Accuracy:</span>
+                  <span className="font-bold text-green-700 text-lg">99.78%</span>
                 </div>
-                <div className="text-2xl font-bold text-green-600 mt-2">
-                  {algo.accuracy}
+                <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg border border-blue-200">
+                  <span className="text-gray-700">Total Models:</span>
+                  <span className="font-bold text-blue-700">12</span>
                 </div>
-                <div className="text-sm text-gray-500 mt-1">
-                  Best Accuracy
+                <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg border border-purple-200">
+                  <span className="text-gray-700">Datasets:</span>
+                  <span className="font-bold text-purple-700">2</span>
                 </div>
               </div>
-            ))}
+            </Card>
           </div>
-        </div>
 
-        {/* Coming Soon */}
-        <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-          <h2 className="text-xl font-semibold mb-2">More Features Coming Soon</h2>
-          <p className="text-gray-600">
-            Detailed metrics, confusion matrices, ROC curves, and feature importance analysis
-          </p>
+          {/* Main Content Area */}
+          <div className="lg:col-span-4">
+            {/* Best Performance - Compact */}
+            <Card className="mb-4">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg font-lato">Performance Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {algorithms.map((algo) => (
+                    <div
+                      key={algo.id}
+                      className="p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+                    >
+                      <div className="text-lg font-semibold text-gray-800">
+                        {algo.short}
+                      </div>
+                      <div className="text-2xl font-bold text-green-600 mt-2">
+                        {algo.accuracy}
+                      </div>
+                      <div className="text-sm text-gray-500 mt-1">
+                        Accuracy
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Results Tabs - Compact */}
+            <Card>
+              <CardContent className="p-4">
+                <Tabs defaultValue="metrics" className="space-y-3">
+                  <TabsList className="grid w-full grid-cols-3 h-9">
+                    <TabsTrigger value="metrics" className="text-xs">
+                      <BarChart3 className="h-3 w-3 mr-1" />
+                      Metrics
+                    </TabsTrigger>
+                    <TabsTrigger value="confusion" className="text-xs">
+                      <Grid3X3 className="h-3 w-3 mr-1" />
+                      Matrix
+                    </TabsTrigger>
+                    <TabsTrigger value="roc" className="text-xs">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      ROC Analysis
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="metrics" className="mt-3">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse border border-gray-200">
+                        <thead>
+                          <tr className="bg-gray-50">
+                            <th className="border border-gray-200 p-2 text-left">Algorithm</th>
+                            <th className="border border-gray-200 p-2 text-left">Accuracy</th>
+                            <th className="border border-gray-200 p-2 text-left">Precision</th>
+                            <th className="border border-gray-200 p-2 text-left">Recall</th>
+                            <th className="border border-gray-200 p-2 text-left">F1-Score</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {mockMetrics.map((metric, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              <td className="border border-gray-200 p-2 font-medium">{metric.algorithm}</td>
+                              <td className="border border-gray-200 p-2">{metric.accuracy}</td>
+                              <td className="border border-gray-200 p-2">{metric.precision}</td>
+                              <td className="border border-gray-200 p-2">{metric.recall}</td>
+                              <td className="border border-gray-200 p-2">{metric.f1}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="confusion" className="mt-3">
+                    <div className="text-center py-12">
+                      <h3 className="text-lg font-semibold mb-2">Confusion Matrix</h3>
+                      <p className="text-gray-600">
+                        Interactive confusion matrices will be displayed here
+                      </p>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="roc" className="mt-3">
+                    <div className="text-center py-12">
+                      <h3 className="text-lg font-semibold mb-2">ROC Curve Analysis</h3>
+                      <p className="text-gray-600">
+                        ROC curves and AUC analysis will be displayed here
+                      </p>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
