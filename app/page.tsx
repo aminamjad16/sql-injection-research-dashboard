@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MetricsTable } from "@/components/metrics-table"
 import { CompactHeader } from "@/components/compact-header"
+import { BestAccuracyChart } from "@/components/best-accuracy-chart"
 import { BarChart3, Grid3X3, Brain, Zap, Target, TrendingUp, Database } from "lucide-react"
 
 const datasets = [
@@ -153,24 +154,7 @@ export default function ResearchDashboard() {
                 <CardTitle className="text-lg font-lato">Performance Overview</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {algorithms.map((algo) => (
-                    <div
-                      key={algo.id}
-                      className="p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
-                    >
-                      <div className="text-lg font-semibold text-gray-800">
-                        {algo.short}
-                      </div>
-                      <div className="text-2xl font-bold text-green-600 mt-2">
-                        {algo.accuracy}
-                      </div>
-                      <div className="text-sm text-gray-500 mt-1">
-                        Accuracy
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <BestAccuracyChart />
               </CardContent>
             </Card>
 
